@@ -6,6 +6,7 @@ import connectDB from './config/db.js'
 import morgan from 'morgan'
 import * as Sentry from "@sentry/node";
 import { clerkWebhooks } from './controllers/webhooks.js'
+import clerkWebhookRoutes from './routes/clerkWebhookRoutes.js';
 
 
 
@@ -15,12 +16,13 @@ const app = express()
 
 
 // Connect to database
-await connectDB()
+connectDB()
 
 //Middlewares
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
+app.use('/api/webhooks', clerkWebhookRoutes);
 
 //Routes
 app.get('/', (req, res)=>{res.send('api working')})
