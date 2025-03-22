@@ -1,7 +1,9 @@
 import './config/instrument.js'
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config'
+import dotenv from 'dotenv';
+dotenv.config();
+console.log("MongoDB URI:", process.env.MONGODB_URI);
 import connectDB from './config/db.js'
 import morgan from 'morgan'
 import * as Sentry from "@sentry/node";
