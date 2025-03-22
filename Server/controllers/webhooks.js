@@ -1,15 +1,12 @@
 import { Webhook } from "svix";
 import User from "../models/User.js";
 
-
 export const clerkWebhooks = async (req, res) => {
     try {
-
-         // Convert Raw Body to JSON
-         const bodyString = req.body.toString('utf8'); 
-         const parsedBody = JSON.parse(bodyString);
-         console.log("Received Webhook:", parsedBody); // ✅ Debugging
-
+        // Convert Raw Body to JSON
+        const bodyString = req.body.toString('utf8'); 
+        const parsedBody = JSON.parse(bodyString);
+        console.log("Received Webhook:", parsedBody); 
 
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
@@ -23,7 +20,7 @@ export const clerkWebhooks = async (req, res) => {
 
         switch (type) {
             case 'user.created': {
-                console.log("User Created Event:", data); // ✅ Debugging
+                console.log("User Created Event:", data); 
                 const userData = {
                     _id: data.id,
                     email: data.email_addresses[0]?.email_address || "", // Handle undefined case
