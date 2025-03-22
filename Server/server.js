@@ -22,6 +22,7 @@ connectDB()
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
+app.use('/api/webhooks', express.raw({ type: 'application/json' }));
 app.use('/api/webhooks', clerkWebhookRoutes);
 
 //Routes
