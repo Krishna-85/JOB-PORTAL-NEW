@@ -1,3 +1,5 @@
+import job from "../models/Job"
+import JobApplication from "../models/JobApplication"
 import User from "../models/User"
 
 
@@ -26,6 +28,41 @@ export const getUserData = async (req, res)=>{
 // Apply for a Job
 export const applyForJob = async (req, res)=>{
    
+   const {jobId} = req.body
+
+   const userId = req.auth.userId
+
+   try {
+    
+    const isAlreadyApplied = await JobApplication.find({jobId, userId})
+
+    if(isAlreadyApplied.length > 0){
+        return res.json({success:false, message:'Already Applied'})
+    }
+
+    const jobData = await job.findById(jobId)
+    
+
+    // Debugging
+    console.log(jobData);
+
+    if(!jobData){
+        return res.json({success:false, message:'Job Not Found'})
+    }
+
+    await JobApplication.create({
+        companyId:jobData.companyId,
+        userId,
+        jobId,
+        date: Date.now()
+    })
+
+    res.json({success:true, message:'Applied Successfully'})
+
+   } catch (error) {
+    res.json({success:false, message:error.message})
+   }
+
 }
 
 // Get User applied Application
