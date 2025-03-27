@@ -11,6 +11,7 @@ import companyRoutes from './src/routes/companyRoutes.js'
 import connectCloudinary from "./src/Config/cloudinary.js"
 import jobRoutes from './src/routes/jobRoutes.js'
 import userRoutes from './src/routes/userRoutes.js'
+import {clerkMiddleware} from '@clerk/express'
 
 
 
@@ -25,6 +26,7 @@ await connectCloudinary()
 // Middlwares
 app.use(cors())
 app.use(express.json())
+app.use(clerkMiddleware())
 
 // Routes
 app.get('/', (req, res) => {
