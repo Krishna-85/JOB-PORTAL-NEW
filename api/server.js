@@ -7,7 +7,10 @@ import * as Sentry from "@sentry/node";
 import { clerkWebhooks } from "./src/controllers/webhooks.js"
 import dotenv from "dotenv";
 dotenv.config();
-
+import companyRoutes from './src/routes/companyRoutes.js'
+import connectCloudinary from "./src/Config/cloudinary.js"
+import jobRoutes from './src/routes/jobRoutes.js'
+import userRoutes from './src/routes/userRoutes.js'
 
 
 
@@ -17,6 +20,7 @@ const app = express()
 
 // Connect to MongoDB
 connectDB();
+await connectCloudinary()
 
 // Middlwares
 app.use(cors())
@@ -31,6 +35,9 @@ app.get("/debug-sentry", function mainHandler(req, res) {
   });
 
 app.post('/webhooks', clerkWebhooks)
+app.use('/api/company', companyRoutes)
+app.use('/api/jobs', jobRoutes)
+app.use('/api/users', userRoutes)
 
   
 
