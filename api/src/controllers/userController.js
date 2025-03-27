@@ -1,6 +1,6 @@
-import job from "../models/Job"
-import JobApplication from "../models/JobApplication"
-import User from "../models/User"
+import job from "../models/Job.js"
+import JobApplication from "../models/JobApplication.js"
+import User from "../models/User.js"
 
 
 // Get user data
