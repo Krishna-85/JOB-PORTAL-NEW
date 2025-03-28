@@ -1,6 +1,7 @@
 import job from "../models/Job.js"
 import JobApplication from "../models/JobApplication.js"
 import User from "../models/User.js"
+import { v2 as cloudinary } from "cloudinary"
 
 
 // Get user data
@@ -91,5 +92,24 @@ export const getUserApplications = async (req, res)=>{
 
 // Update user Profile (resume)
 export const updateUserResume = async (req,res)=>{
+   try {
+    
+    const userId = req.auth.userId
 
+    const resumeFile = req.resumeFile
+
+    const userData = await User.findById(userId)
+
+    if(resumeFile){
+        const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
+        userData.resume = resumeUpload.secure_url
+    }
+
+    await userData.save()
+
+    return res.json({success: true, message:'Resume Updated'})
+
+   } catch (error) {
+    res.json({success:false, message: error.message})
+   }
 }
