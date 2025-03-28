@@ -67,7 +67,26 @@ export const applyForJob = async (req, res)=>{
 
 // Get User applied Application
 export const getUserApplications = async (req, res)=>{
+     try {
 
+        const userId = req.auth.userId
+
+       const applications = await JobApplication.find({userId})
+       .populate('companyId', 'name email image')
+       .populate('jobId', 'title description location category salery')
+       .exec()
+
+       if(!applications){
+        return res.json({success: false , message: 'No Job application found for this user'})
+       }
+
+       return res.json({success:true, applications})
+
+
+
+     } catch (error) {
+        res.json({success:false , message: error.message})
+     }
 }
 
 // Update user Profile (resume)
